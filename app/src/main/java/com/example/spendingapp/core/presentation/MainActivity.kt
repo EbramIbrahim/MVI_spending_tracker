@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.spendingapp.core.presentation.util.Background
 import com.example.spendingapp.core.presentation.util.Screen
+import com.example.spendingapp.features.balance.presentation.BalanceScreenCore
 import com.example.spendingapp.ui.theme.SpendingAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -69,7 +70,9 @@ class MainActivity : ComponentActivity() {
                     modifier = modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "Balance")
+                    BalanceScreenCore {
+                        navController.popBackStack()
+                    }
                 }
             }
 
