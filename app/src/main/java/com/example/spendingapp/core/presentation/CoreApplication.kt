@@ -2,6 +2,7 @@ package com.example.spendingapp.core.presentation
 
 import android.app.Application
 import com.example.spendingapp.core.di.coreModule
+import com.example.spendingapp.features.balance.di.balanceModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
@@ -12,7 +13,8 @@ class CoreApplication: Application() {
         startKoin {
             androidContext(this@CoreApplication)
             modules(
-                coreModule
+                coreModule,
+                balanceModule,
             )
         }
 
