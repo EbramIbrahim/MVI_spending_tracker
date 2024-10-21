@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.spendingapp.core.presentation.util.Background
 import com.example.spendingapp.core.presentation.util.Screen
 import com.example.spendingapp.features.balance.presentation.BalanceScreenCore
+import com.example.spendingapp.features.spending_overview.presentation.ui.SpendingOverviewCore
 import com.example.spendingapp.ui.theme.SpendingAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -46,12 +47,10 @@ class MainActivity : ComponentActivity() {
         ) {
 
             composable<Screen.SpendingOverview> {
-                Box(
-                    modifier = modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "Spending Overview")
-                }
+               SpendingOverviewCore(
+                   onBalanceClick = { navController.navigate(Screen.Balance) },
+                   onAddSpendingClick = { navController.navigate(Screen.SpendingDetails) }
+               )
             }
 
 
