@@ -15,20 +15,39 @@ import java.time.ZonedDateTime
 class SpendingOverviewViewModel(
     private val spendingDataSource: SpendingLocalDataSource,
     private val coreRepository: CoreRepository
-): ViewModel() {
+) : ViewModel() {
 
 
-     var state by mutableStateOf(SpendingOverviewState())
-         private set
+    var state by mutableStateOf(SpendingOverviewState())
+        private set
 
 
     fun onAction(action: SpendingOverviewAction) {
-        when(action) {
+        when (action) {
             SpendingOverviewAction.LoadingSpendingOverviewAndBalance -> {
                 loadSpendingListAndBalance()
             }
-            is SpendingOverviewAction.OnDataChanged -> TODO()
-            is SpendingOverviewAction.OnDataDeleted -> TODO()
+
+            is SpendingOverviewAction.OnDateChanged -> {
+                val newDate = state.dateList[action.newDate]
+                viewModelScope.launch {
+                    state = state.copy(
+                        pickedDateTime = newDate,
+                        spendingList = getSpendingByDate(newDate)
+                        )
+                }
+            }
+
+            is SpendingOverviewAction.OnDataDeleted -> {
+                viewModelScope.launch {
+                    spendingDataSource.deleteSpending(action.spendingId)
+                    state = state.copy(
+                        spendingList = getSpendingByDate(state.pickedDateTime),
+                        dateList = spendingDataSource.getAllDates(),
+                        balance = coreRepository.getBalance() - spendingDataSource.getSpendingBalance()
+                    )
+                }
+            }
         }
     }
 

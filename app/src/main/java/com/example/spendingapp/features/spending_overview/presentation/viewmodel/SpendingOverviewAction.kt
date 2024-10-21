@@ -4,7 +4,7 @@ sealed interface SpendingOverviewAction {
 
     data object LoadingSpendingOverviewAndBalance: SpendingOverviewAction
 
-    data class OnDataChanged(val spendingId: Int): SpendingOverviewAction
+    data class OnDateChanged(val newDate: Int): SpendingOverviewAction
 
     data class OnDataDeleted(val spendingId: Int): SpendingOverviewAction
 

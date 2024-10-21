@@ -82,20 +82,34 @@ fun SpendingOverviewScreen(
             }
         },
         topBar = {
-            SpendingOverviewTopBar(
-                modifier = Modifier.fillMaxWidth(),
-                scrollBehavior = scrollBehavior,
-                onBalanceClicked = onBalanceClick,
-                balance = state.balance
-            )
+
+            Column {
+                SpendingOverviewTopBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    scrollBehavior = scrollBehavior,
+                    onBalanceClicked = onBalanceClick,
+                    balance = state.balance
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                SpendingOverviewDropDownMenu(
+                    state = state,
+                    onMenuClick = {
+                        onAction(SpendingOverviewAction.OnDateChanged(it))
+                    },
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
         }
     ) { paddingValues ->
         Background()
-        Column(
-            modifier = Modifier.padding(paddingValues)
-        ) {
 
-        }
+        SpendingList(
+            state = state,
+            onDeleteSpending = onDeleteSpending,
+            modifier = Modifier.padding(paddingValues)
+        )
     }
 
 }
